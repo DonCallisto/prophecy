@@ -68,7 +68,7 @@ class ProphecySubjectPatch implements ClassPatchInterface
         $prophecySetter->setCode('$this->objectProphecyClosure = function () use ($prophecy) { return $prophecy; };');
 
         $prophecyGetter = new MethodNode('getProphecy');
-        $prophecyGetter->setCode('return $this->objectProphecyClosure();');
+        $prophecyGetter->setCode('return call_user_func($this->objectProphecyClosure);');
 
         if ($node->hasMethod('__call')) {
             $__call = $node->getMethod('__call');
