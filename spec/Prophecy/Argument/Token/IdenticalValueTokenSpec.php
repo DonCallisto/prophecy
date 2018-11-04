@@ -3,7 +3,7 @@
 namespace spec\Prophecy\Argument\Token;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
+use Prophecy\Argument\Token\IdenticalValueToken;
 
 class IdenticalValueTokenSpec extends ObjectBehavior
 {
@@ -14,7 +14,7 @@ class IdenticalValueTokenSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Prophecy\Argument\Token\IdenticalValueToken');
+        $this->shouldHaveType(IdenticalValueToken::class);
     }
 
     function it_scores_11_if_string_value_is_identical_to_argument()

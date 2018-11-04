@@ -3,13 +3,13 @@
 namespace spec\Prophecy\Comparator;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
+use SebastianBergmann\Comparator\Comparator;
 
 class ClosureComparatorSpec extends ObjectBehavior
 {
     function it_is_comparator()
     {
-        $this->shouldHaveType('SebastianBergmann\Comparator\Comparator');
+        $this->shouldHaveType(Comparator::class);
     }
 
     function it_accepts_only_closures()

@@ -3,6 +3,7 @@
 namespace spec\Prophecy\Argument\Token;
 
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument\Token\ExactValueToken;
 use Prophecy\Argument\Token\TokenInterface;
 
 class ArrayEveryEntryTokenSpec extends ObjectBehavior
@@ -14,7 +15,7 @@ class ArrayEveryEntryTokenSpec extends ObjectBehavior
 
     function it_implements_TokenInterface()
     {
-        $this->shouldBeAnInstanceOf('Prophecy\Argument\Token\TokenInterface');
+        $this->shouldBeAnInstanceOf(TokenInterface::class);
     }
 
     function it_is_not_last()
@@ -36,7 +37,7 @@ class ArrayEveryEntryTokenSpec extends ObjectBehavior
     function it_wraps_non_token_value_into_ExactValueToken(\stdClass $stdClass)
     {
         $this->beConstructedWith($stdClass);
-        $this->getValue()->shouldHaveType('Prophecy\Argument\Token\ExactValueToken');
+        $this->getValue()->shouldHaveType(ExactValueToken::class);
     }
 
     function it_does_not_score_if_argument_is_neither_array_nor_traversable()

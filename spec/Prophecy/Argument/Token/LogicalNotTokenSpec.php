@@ -3,6 +3,7 @@
 namespace spec\Prophecy\Argument\Token;
 
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument\Token\ExactValueToken;
 use Prophecy\Argument\Token\TokenInterface;
 
 class LogicalNotTokenSpec extends ObjectBehavior
@@ -14,7 +15,7 @@ class LogicalNotTokenSpec extends ObjectBehavior
 
     function it_implements_TokenInterface()
     {
-        $this->shouldBeAnInstanceOf('Prophecy\Argument\Token\TokenInterface');
+        $this->shouldBeAnInstanceOf(TokenInterface::class);
     }
 
     function it_holds_originating_token($token)
@@ -32,7 +33,7 @@ class LogicalNotTokenSpec extends ObjectBehavior
     {
         $this->beConstructedWith(5);
         $token = $this->getOriginatingToken();
-        $token->shouldhaveType('Prophecy\Argument\Token\ExactValueToken');
+        $token->shouldhaveType(ExactValueToken::class);
         $token->getValue()->shouldBe(5);
     }
 

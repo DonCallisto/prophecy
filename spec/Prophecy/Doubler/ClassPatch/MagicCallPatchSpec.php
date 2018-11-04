@@ -3,7 +3,7 @@
 namespace spec\Prophecy\Doubler\ClassPatch;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
+use Prophecy\Doubler\ClassPatch\ClassPatchInterface;
 use Prophecy\Doubler\Generator\Node\ClassNode;
 use Prophecy\Doubler\Generator\Node\MethodNode;
 
@@ -11,7 +11,7 @@ class MagicCallPatchSpec extends ObjectBehavior
 {
     function it_is_a_patch()
     {
-        $this->shouldBeAnInstanceOf('Prophecy\Doubler\ClassPatch\ClassPatchInterface');
+        $this->shouldBeAnInstanceOf(ClassPatchInterface::class);
     }
 
     function it_supports_anything(ClassNode $node)
@@ -21,7 +21,7 @@ class MagicCallPatchSpec extends ObjectBehavior
 
     function it_discovers_api_using_phpdoc(ClassNode $node)
     {
-        $node->getParentClass()->willReturn('spec\Prophecy\Doubler\ClassPatch\MagicalApi');
+        $node->getParentClass()->willReturn(MagicalApi::class);
         $node->getInterfaces()->willReturn(array());
 
         $node->addMethod(new MethodNode('undefinedMethod'))->shouldBeCalled();
@@ -31,7 +31,7 @@ class MagicCallPatchSpec extends ObjectBehavior
 
     function it_ignores_existing_methods(ClassNode $node)
     {
-        $node->getParentClass()->willReturn('spec\Prophecy\Doubler\ClassPatch\MagicalApiExtended');
+        $node->getParentClass()->willReturn(MagicalApiExtended::class);
         $node->getInterfaces()->willReturn(array());
 
         $node->addMethod(new MethodNode('undefinedMethod'))->shouldBeCalled();
@@ -42,7 +42,7 @@ class MagicCallPatchSpec extends ObjectBehavior
 
     function it_ignores_empty_methods_from_phpdoc(ClassNode $node)
     {
-        $node->getParentClass()->willReturn('spec\Prophecy\Doubler\ClassPatch\MagicalApiInvalidMethodDefinition');
+        $node->getParentClass()->willReturn(MagicalApiInvalidMethodDefinition::class);
         $node->getInterfaces()->willReturn(array());
 
         $node->addMethod(new MethodNode(''))->shouldNotBeCalled();
@@ -52,7 +52,7 @@ class MagicCallPatchSpec extends ObjectBehavior
 
     function it_discovers_api_using_phpdoc_from_implemented_interfaces(ClassNode $node)
     {
-        $node->getParentClass()->willReturn('spec\Prophecy\Doubler\ClassPatch\MagicalApiImplemented');
+        $node->getParentClass()->willReturn(MagicalApiImplemented::class);
         $node->getInterfaces()->willReturn(array());
 
         $node->addMethod(new MethodNode('implementedMethod'))->shouldBeCalled();
@@ -62,8 +62,8 @@ class MagicCallPatchSpec extends ObjectBehavior
 
     function it_discovers_api_using_phpdoc_from_own_interfaces(ClassNode $node)
     {
-        $node->getParentClass()->willReturn('stdClass');
-        $node->getInterfaces()->willReturn(array('spec\Prophecy\Doubler\ClassPatch\MagicalApiImplemented'));
+        $node->getParentClass()->willReturn(\stdClass::class);
+        $node->getInterfaces()->willReturn(array(MagicalApiImplemented::class));
 
         $node->addMethod(new MethodNode('implementedMethod'))->shouldBeCalled();
 
@@ -72,7 +72,7 @@ class MagicCallPatchSpec extends ObjectBehavior
 
     function it_discovers_api_using_phpdoc_from_extended_parent_interfaces(ClassNode $node)
     {
-        $node->getParentClass()->willReturn('spec\Prophecy\Doubler\ClassPatch\MagicalApiImplementedExtended');
+        $node->getParentClass()->willReturn(MagicalApiImplementedExtended::class);
         $node->getInterfaces()->willReturn(array());
 
         $node->addMethod(new MethodNode('implementedMethod'))->shouldBeCalled();
@@ -129,7 +129,7 @@ class MagicalApiImplemented implements MagicalApiInterface
 class MagicalApiImplementedExtended extends MagicalApiImplemented
 {
 }
-
+'ArrayAccess'
 /**
  * @method void implementedMethod()
  */

@@ -4,7 +4,6 @@ namespace spec\Prophecy\Doubler\Generator;
 
 use phpDocumentor\Reflection\DocBlock\Tags\Method;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use Prophecy\Doubler\Generator\Node\ArgumentNode;
 use Prophecy\Doubler\Generator\Node\ClassNode;
 use Prophecy\Doubler\Generator\Node\MethodNode;
@@ -24,7 +23,7 @@ class ClassCodeGeneratorSpec extends ObjectBehavior
         ArgumentNode $argument21,
         ArgumentNode $argument31
     ) {
-        $class->getParentClass()->willReturn('RuntimeException');
+        $class->getParentClass()->willReturn(\RuntimeException::class);
         $class->getInterfaces()->willReturn(array(
             'Prophecy\Doubler\Generator\MirroredInterface', 'ArrayAccess', 'ArrayIterator'
         ));
@@ -89,7 +88,7 @@ class ClassCodeGeneratorSpec extends ObjectBehavior
         $argument11->isNullable()->willReturn(false);
 
         $argument12->getName()->willReturn('class');
-        $argument12->getTypeHint()->willReturn('ReflectionClass');
+        $argument12->getTypeHint()->willReturn(\ReflectionClass::class);
         $argument12->isOptional()->willReturn(false);
         $argument12->isPassedByReference()->willReturn(false);
         $argument12->isVariadic()->willReturn(false);
@@ -240,7 +239,7 @@ PHP;
         ArgumentNode $argument3,
         ArgumentNode $argument4
     ) {
-        $class->getParentClass()->willReturn('stdClass');
+        $class->getParentClass()->willReturn(\stdClass::class);
         $class->getInterfaces()->willReturn(array('Prophecy\Doubler\Generator\MirroredInterface'));
         $class->getProperties()->willReturn(array());
         $class->getMethods()->willReturn(array(
@@ -294,14 +293,14 @@ PHP;
         $argument2->isNullable()->willReturn(false);
 
         $argument3->getName()->willReturn('args');
-        $argument3->getTypeHint()->willReturn('\ReflectionClass');
+        $argument3->getTypeHint()->willReturn(\ReflectionClass::class);
         $argument3->isOptional()->willReturn(false);
         $argument3->isPassedByReference()->willReturn(false);
         $argument3->isVariadic()->willReturn(true);
         $argument3->isNullable()->willReturn(false);
 
         $argument4->getName()->willReturn('args');
-        $argument4->getTypeHint()->willReturn('\ReflectionClass');
+        $argument4->getTypeHint()->willReturn(\ReflectionClass::class);
         $argument4->isOptional()->willReturn(false);
         $argument4->isPassedByReference()->willReturn(true);
         $argument4->isVariadic()->willReturn(true);
@@ -337,7 +336,7 @@ PHP;
         MethodNode $method,
         ArgumentNode $argument
     ) {
-        $class->getParentClass()->willReturn('RuntimeException');
+        $class->getParentClass()->willReturn(\RuntimeException::class);
         $class->getInterfaces()->willReturn(array('Prophecy\Doubler\Generator\MirroredInterface'));
         $class->getProperties()->willReturn(array());
         $class->getMethods()->willReturn(array($method));
@@ -376,7 +375,7 @@ PHP;
 
     function it_generates_empty_class_for_empty_ClassNode(ClassNode $class)
     {
-        $class->getParentClass()->willReturn('stdClass');
+        $class->getParentClass()->willReturn(\stdClass::class);
         $class->getInterfaces()->willReturn(array('Prophecy\Doubler\Generator\MirroredInterface'));
         $class->getProperties()->willReturn(array());
         $class->getMethods()->willReturn(array());
@@ -396,7 +395,7 @@ PHP;
 
     function it_wraps_class_in_namespace_if_it_is_namespaced(ClassNode $class)
     {
-        $class->getParentClass()->willReturn('stdClass');
+        $class->getParentClass()->willReturn(\stdClass::class);
         $class->getInterfaces()->willReturn(array('Prophecy\Doubler\Generator\MirroredInterface'));
         $class->getProperties()->willReturn(array());
         $class->getMethods()->willReturn(array());

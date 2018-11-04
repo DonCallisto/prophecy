@@ -3,12 +3,13 @@
 namespace spec\Prophecy\Argument\Token;
 
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument\Token\TokenInterface;
 
 class AnyValueTokenSpec extends ObjectBehavior
 {
     function it_implements_TokenInterface()
     {
-        $this->shouldBeAnInstanceOf('Prophecy\Argument\Token\TokenInterface');
+        $this->shouldBeAnInstanceOf(TokenInterface::class);
     }
 
     function it_is_not_last()

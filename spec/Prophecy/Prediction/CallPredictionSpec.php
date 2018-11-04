@@ -6,6 +6,8 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Prophecy\Argument\ArgumentsWildcard;
 use Prophecy\Call\Call;
+use Prophecy\Exception\Prediction\NoCallsException;
+use Prophecy\Prediction\PredictionInterface;
 use Prophecy\Prophecy\MethodProphecy;
 use Prophecy\Prophecy\ObjectProphecy;
 
@@ -13,7 +15,7 @@ class CallPredictionSpec extends ObjectBehavior
 {
     function it_is_prediction()
     {
-        $this->shouldHaveType('Prophecy\Prediction\PredictionInterface');
+        $this->shouldHaveType(PredictionInterface::class);
     }
 
     function it_does_nothing_if_there_is_more_than_one_call_been_made(
@@ -36,7 +38,7 @@ class CallPredictionSpec extends ObjectBehavior
         $object->reveal()->willReturn(new \stdClass());
         $object->findProphecyMethodCalls('getName', Argument::any())->willReturn(array());
 
-        $this->shouldThrow('Prophecy\Exception\Prediction\NoCallsException')
+        $this->shouldThrow(NoCallsException::class)
             ->duringCheck(array(), $object, $method);
     }
 }

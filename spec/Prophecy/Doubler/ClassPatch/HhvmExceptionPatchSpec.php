@@ -3,7 +3,7 @@
 namespace spec\Prophecy\Doubler\ClassPatch;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
+use Prophecy\Doubler\ClassPatch\ClassPatchInterface;
 use Prophecy\Doubler\Generator\Node\ClassNode;
 use Prophecy\Doubler\Generator\Node\MethodNode;
 
@@ -11,7 +11,7 @@ class HhvmExceptionPatchSpec extends ObjectBehavior
 {
     function it_is_a_patch()
     {
-        $this->shouldBeAnInstanceOf('Prophecy\Doubler\ClassPatch\ClassPatchInterface');
+        $this->shouldBeAnInstanceOf(ClassPatchInterface::class);
     }
 
     function its_priority_is_minus_50()

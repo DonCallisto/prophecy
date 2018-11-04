@@ -14,11 +14,13 @@ enough to be used inside any testing framework out there with minimal effort.
 
 class UserTest extends PHPUnit_Framework_TestCase
 {
+    use App\Security\Hasher;
+    
     private $prophet;
 
     public function testPasswordHashing()
     {
-        $hasher = $this->prophet->prophesize('App\Security\Hasher');
+        $hasher = $this->prophet->prophesize(Hasher::class);
         $user   = new App\Entity\User($hasher->reveal());
 
         $hasher->generateHash($user, 'qwerty')->willReturn('hashed_pass');
@@ -150,7 +152,9 @@ As a matter of fact, the call that we made earlier (`willReturn('value')`) is a 
 shortcut to:
 
 ```php
-$prophecy->read('123')->will(new Prophecy\Promise\ReturnPromise(array('value')));
+use Prophecy\Promise\ReturnPromise;
+
+$prophecy->read('123')->will(new ReturnPromise(array('value')));
 ```
 
 This promise will cause any call to our double's `read()` method with exactly one
@@ -366,7 +370,9 @@ you don't need to record predictions in order to check them. You can also do it
 manually by using the `MethodProphecy::shouldHave(PredictionInterface $prediction)` method:
 
 ```php
-$em = $prophet->prophesize('Doctrine\ORM\EntityManager');
+use Doctrine\ORM\EntityManager;
+
+$em = $prophet->prophesize(EntityManager::class);
 
 $controller->createUser($em->reveal());
 

@@ -6,8 +6,11 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Prophecy\Argument\ArgumentsWildcard;
 use Prophecy\Doubler\Doubler;
+use Prophecy\Exception\Prediction\AggregateException;
 use Prophecy\Prophecy\MethodProphecy;
+use Prophecy\Prophecy\ObjectProphecy;
 use Prophecy\Prophecy\ProphecySubjectInterface;
+use Prophecy\Prophet;
 
 class ProphetSpec extends ObjectBehavior
 {
@@ -21,21 +24,21 @@ class ProphetSpec extends ObjectBehavior
     function it_constructs_new_prophecy_on_prophesize_call()
     {
         $prophecy = $this->prophesize();
-        $prophecy->shouldBeAnInstanceOf('Prophecy\Prophecy\ObjectProphecy');
+        $prophecy->shouldBeAnInstanceOf(ObjectProphecy::class);
     }
 
     function it_constructs_new_prophecy_with_parent_class_if_specified($doubler, ProphecySubjectInterface $newDouble)
     {
         $doubler->double(Argument::any(), array())->willReturn($newDouble);
 
-        $this->prophesize('Prophecy\Prophet')->reveal()->shouldReturn($newDouble);
+        $this->prophesize(Prophet::class)->reveal()->shouldReturn($newDouble);
     }
 
     function it_constructs_new_prophecy_with_interface_if_specified($doubler, ProphecySubjectInterface $newDouble)
     {
         $doubler->double(null, Argument::any())->willReturn($newDouble);
 
-        $this->prophesize('ArrayAccess')->reveal()->shouldReturn($newDouble);
+        $this->prophesize(\ArrayAccess::class)->reveal()->shouldReturn($newDouble);
     }
 
     function it_exposes_all_created_prophecies_through_getter()
@@ -63,14 +66,12 @@ class ProphetSpec extends ObjectBehavior
 
         $method2->getMethodName()->willReturn('isSet');
         $method2->getArgumentsWildcard()->willReturn($arguments2);
-        $method2->checkPrediction()->willThrow(
-            'Prophecy\Exception\Prediction\AggregateException'
-        );
+        $method2->checkPrediction()->willThrow(AggregateException::class);
 
         $this->prophesize()->addMethodProphecy($method1);
         $this->prophesize()->addMethodProphecy($method2);
 
-        $this->shouldThrow('Prophecy\Exception\Prediction\AggregateException')
+        $this->shouldThrow(AggregateException::class)
             ->duringCheckPredictions();
     }
 

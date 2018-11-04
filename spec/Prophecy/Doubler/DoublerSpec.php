@@ -62,20 +62,20 @@ class DoublerSpec extends ObjectBehavior
         $alt2->supports($node)->willReturn(false);
         $alt1->getPriority()->willReturn(1);
         $alt2->getPriority()->willReturn(2);
-        $namer->name($class, array($interface1, $interface2))->willReturn('SplStack');
-        $class->getName()->willReturn('stdClass');
-        $interface1->getName()->willReturn('ArrayAccess');
-        $interface2->getName()->willReturn('Iterator');
+        $namer->name($class, array($interface1, $interface2))->willReturn(\SplStack::class);
+        $class->getName()->willReturn(\stdClass::class);
+        $interface1->getName()->willReturn(\ArrayAccess::class);
+        $interface2->getName()->willReturn(\Iterator::class);
 
         $alt1->apply($node)->shouldBeCalled();
         $alt2->apply($node)->shouldNotBeCalled();
-        $creator->create('SplStack', $node)->shouldBeCalled();
+        $creator->create(\SplStack::class, $node)->shouldBeCalled();
 
         $this->registerClassPatch($alt1);
         $this->registerClassPatch($alt2);
 
         $this->double($class, array($interface1, $interface2))
-            ->shouldReturnAnInstanceOf('SplStack');
+            ->shouldReturnAnInstanceOf(\SplStack::class);
     }
 
     function it_double_instantiates_a_class_with_constructor_argument(
@@ -84,13 +84,13 @@ class DoublerSpec extends ObjectBehavior
         ClassNode $node,
         $namer
     ) {
-        $class->getName()->willReturn('ReflectionClass');
+        $class->getName()->willReturn(\ReflectionClass::class);
         $mirror->reflect($class, array())->willReturn($node);
-        $namer->name($class, array())->willReturn('ReflectionClass');
+        $namer->name($class, array())->willReturn(\ReflectionClass::class);
 
-        $double = $this->double($class, array(), array('stdClass'));
-        $double->shouldBeAnInstanceOf('ReflectionClass');
-        $double->getName()->shouldReturn('stdClass');
+        $double = $this->double($class, array(), array(\stdClass::class));
+        $double->shouldBeAnInstanceOf(\ReflectionClass::class);
+        $double->getName()->shouldReturn(\stdClass::class);
     }
 
     function it_can_instantiate_class_with_final_constructor(
@@ -99,13 +99,13 @@ class DoublerSpec extends ObjectBehavior
         ClassNode $node,
         $namer
     ) {
-        $class->getName()->willReturn('spec\Prophecy\Doubler\WithFinalConstructor');
+        $class->getName()->willReturn(WithFinalConstructor::class);
         $mirror->reflect($class, array())->willReturn($node);
-        $namer->name($class, array())->willReturn('spec\Prophecy\Doubler\WithFinalConstructor');
+        $namer->name($class, array())->willReturn(WithFinalConstructor::class);
 
         $double = $this->double($class, array());
 
-        $double->shouldBeAnInstanceOf('spec\Prophecy\Doubler\WithFinalConstructor');
+        $double->shouldBeAnInstanceOf(WithFinalConstructor::class);
     }
 }
 

@@ -3,6 +3,7 @@
 namespace spec\Prophecy\Promise;
 
 use PhpSpec\ObjectBehavior;
+use Prophecy\Promise\PromiseInterface;
 use Prophecy\Prophecy\MethodProphecy;
 use Prophecy\Prophecy\ObjectProphecy;
 
@@ -15,7 +16,7 @@ class CallbackPromiseSpec extends ObjectBehavior
 
     function it_is_promise()
     {
-        $this->shouldBeAnInstanceOf('Prophecy\Promise\PromiseInterface');
+        $this->shouldBeAnInstanceOf(PromiseInterface::class);
     }
 
     function it_should_execute_closure_callback(ObjectProphecy $object, MethodProphecy $method)
@@ -31,7 +32,7 @@ class CallbackPromiseSpec extends ObjectBehavior
 
     function it_should_execute_static_array_callback(ObjectProphecy $object, MethodProphecy $method)
     {
-        $firstArgumentCallback = array('spec\Prophecy\Promise\ClassCallback', 'staticCallbackMethod');
+        $firstArgumentCallback = array(ClassCallback::class, 'staticCallbackMethod');
 
         $this->beConstructedWith($firstArgumentCallback);
 

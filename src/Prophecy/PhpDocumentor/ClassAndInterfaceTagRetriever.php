@@ -11,8 +11,10 @@
 
 namespace Prophecy\PhpDocumentor;
 
+use phpDocumentor\Reflection\DocBlockFactory;
 use phpDocumentor\Reflection\DocBlock\Tag\MethodTag as LegacyMethodTag;
 use phpDocumentor\Reflection\DocBlock\Tags\Method;
+use phpDocumentor\Reflection\Types\ContextFactory;
 
 /**
  * @author Théo FIDRY <theo.fidry@gmail.com>
@@ -31,7 +33,7 @@ final class ClassAndInterfaceTagRetriever implements MethodTagRetrieverInterface
             return;
         }
 
-        $this->classRetriever = class_exists('phpDocumentor\Reflection\DocBlockFactory') && class_exists('phpDocumentor\Reflection\Types\ContextFactory')
+        $this->classRetriever = class_exists(DocBlockFactory::class) && class_exists(ContextFactory::class)
             ? new ClassTagRetriever()
             : new LegacyClassTagRetriever()
         ;

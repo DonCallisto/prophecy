@@ -4,6 +4,7 @@ namespace spec\Prophecy\Doubler\ClassPatch;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Prophecy\Doubler\ClassPatch\ClassPatchInterface;
 use Prophecy\Doubler\Generator\Node\ArgumentNode;
 use Prophecy\Doubler\Generator\Node\ClassNode;
 use Prophecy\Doubler\Generator\Node\MethodNode;
@@ -12,7 +13,7 @@ class DisableConstructorPatchSpec extends ObjectBehavior
 {
     function it_is_a_patch()
     {
-        $this->shouldBeAnInstanceOf('Prophecy\Doubler\ClassPatch\ClassPatchInterface');
+        $this->shouldBeAnInstanceOf(ClassPatchInterface::class);
     }
 
     function its_priority_is_100()
@@ -46,7 +47,7 @@ class DisableConstructorPatchSpec extends ObjectBehavior
     function it_creates_new_constructor_if_object_has_none(ClassNode $class)
     {
         $class->hasMethod('__construct')->willReturn(false);
-        $class->addMethod(Argument::type('Prophecy\Doubler\Generator\Node\MethodNode'))
+        $class->addMethod(Argument::type(MethodNode::class))
             ->shouldBeCalled();
 
         $this->apply($class);

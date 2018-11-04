@@ -6,6 +6,8 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Prophecy\Argument\ArgumentsWildcard;
 use Prophecy\Call\Call;
+use Prophecy\Exception\Prediction\UnexpectedCallsCountException;
+use Prophecy\Prediction\PredictionInterface;
 use Prophecy\Prophecy\MethodProphecy;
 use Prophecy\Prophecy\ObjectProphecy;
 
@@ -18,7 +20,7 @@ class CallTimesPredictionSpec extends ObjectBehavior
 
     function it_is_prediction()
     {
-        $this->shouldHaveType('Prophecy\Prediction\PredictionInterface');
+        $this->shouldHaveType(PredictionInterface::class);
     }
 
     function it_does_nothing_if_there_were_exact_amount_of_calls_being_made(
@@ -47,7 +49,7 @@ class CallTimesPredictionSpec extends ObjectBehavior
         $call->getArguments()->willReturn(array(5, 4, 'three'));
         $call->getCallPlace()->willReturn('unknown');
 
-        $this->shouldThrow('Prophecy\Exception\Prediction\UnexpectedCallsCountException')
+        $this->shouldThrow(UnexpectedCallsCountException::class)
             ->duringCheck(array($call), $object, $method);
     }
 }

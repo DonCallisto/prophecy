@@ -10,7 +10,10 @@ use Prophecy\Call\Call;
 use Prophecy\Call\CallCenter;
 use Prophecy\Doubler\Doubler;
 use Prophecy\Doubler\LazyDouble;
+use Prophecy\Exception\Prediction\AggregateException;
+use Prophecy\Exception\Prophecy\MethodProphecyException;
 use Prophecy\Prophecy\MethodProphecy;
+use Prophecy\Prophecy\ProphecyInterface;
 use Prophecy\Prophecy\ProphecySubjectInterface;
 use Prophecy\Prophecy\RevealerInterface;
 
@@ -25,7 +28,7 @@ class ObjectProphecySpec extends ObjectBehavior
 
     function it_implements_ProphecyInterface()
     {
-        $this->shouldBeAnInstanceOf('Prophecy\Prophecy\ProphecyInterface');
+        $this->shouldBeAnInstanceOf(ProphecyInterface::class);
     }
 
     function it_sets_parentClass_during_willExtend_call($lazyDouble)
@@ -183,7 +186,7 @@ class ObjectProphecySpec extends ObjectBehavior
         $methodProphecy->getObjectProphecy()->willReturn($this);
         $methodProphecy->getMethodName()->willReturn('getTitle');
 
-        $this->shouldThrow('Prophecy\Exception\Prophecy\MethodProphecyException')->duringAddMethodProphecy(
+        $this->shouldThrow(MethodProphecyException::class)->duringAddMethodProphecy(
             $methodProphecy
         );
     }
@@ -201,17 +204,17 @@ class ObjectProphecySpec extends ObjectBehavior
         $methodProphecy1->getMethodName()->willReturn('getName');
         $methodProphecy1->getArgumentsWildcard()->willReturn($argumentsWildcard1);
         $methodProphecy1->checkPrediction()
-            ->willThrow('Prophecy\Exception\Prediction\AggregateException');
+            ->willThrow(AggregateException::class);
 
         $methodProphecy2->getMethodName()->willReturn('setName');
         $methodProphecy2->getArgumentsWildcard()->willReturn($argumentsWildcard2);
         $methodProphecy2->checkPrediction()
-            ->willThrow('Prophecy\Exception\Prediction\AggregateException');
+            ->willThrow(AggregateException::class);
 
         $this->addMethodProphecy($methodProphecy1);
         $this->addMethodProphecy($methodProphecy2);
 
-        $this->shouldThrow('Prophecy\Exception\Prediction\AggregateException')
+        $this->shouldThrow(AggregateException::class)
             ->duringCheckProphecyMethodsPredictions();
     }
 
@@ -222,7 +225,7 @@ class ObjectProphecySpec extends ObjectBehavior
         $doubler->double(Argument::any())->willReturn($reflection);
 
         $return = $this->getProphecy();
-        $return->shouldBeAnInstanceOf('Prophecy\Prophecy\MethodProphecy');
+        $return->shouldBeAnInstanceOf(MethodProphecy::class);
         $return->getMethodName()->shouldReturn('getProphecy');
     }
 

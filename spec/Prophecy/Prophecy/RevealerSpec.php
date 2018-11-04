@@ -4,12 +4,13 @@ namespace spec\Prophecy\Prophecy;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Prophecy\ProphecyInterface;
+use Prophecy\Prophecy\RevealerInterface;
 
 class RevealerSpec extends ObjectBehavior
 {
     function it_is_revealer()
     {
-        $this->shouldBeAnInstanceOf('Prophecy\Prophecy\RevealerInterface');
+        $this->shouldBeAnInstanceOf(RevealerInterface::class);
     }
 
     function it_reveals_single_instance_of_ProphecyInterface(ProphecyInterface $prophecy, \stdClass $object)

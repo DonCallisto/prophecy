@@ -4,6 +4,8 @@ namespace spec\Prophecy\Promise;
 
 use PhpSpec\Exception\Example\SkippingException;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Exception\InvalidArgumentException;
+use Prophecy\Promise\PromiseInterface;
 use Prophecy\Prophecy\MethodProphecy;
 use Prophecy\Prophecy\ObjectProphecy;
 
@@ -11,27 +13,27 @@ class ThrowPromiseSpec extends ObjectBehavior
 {
     function let()
     {
-        $this->beConstructedWith('RuntimeException');
+        $this->beConstructedWith(\RuntimeException::class);
     }
 
     function it_is_promise()
     {
-        $this->shouldBeAnInstanceOf('Prophecy\Promise\PromiseInterface');
+        $this->shouldBeAnInstanceOf(PromiseInterface::class);
     }
 
     function it_instantiates_and_throws_exception_from_provided_classname(ObjectProphecy $object, MethodProphecy $method)
     {
-        $this->beConstructedWith('InvalidArgumentException');
+        $this->beConstructedWith(\InvalidArgumentException::class);
 
-        $this->shouldThrow('InvalidArgumentException')
+        $this->shouldThrow(\InvalidArgumentException::class)
             ->duringExecute(array(), $object, $method);
     }
 
     function it_instantiates_exceptions_with_required_arguments(ObjectProphecy $object, MethodProphecy $method)
     {
-        $this->beConstructedWith('spec\Prophecy\Promise\RequiredArgumentException');
+        $this->beConstructedWith(RequiredArgumentException::class);
 
-        $this->shouldThrow('spec\Prophecy\Promise\RequiredArgumentException')
+        $this->shouldThrow(RequiredArgumentException::class)
             ->duringExecute(array(), $object, $method);
     }
 
@@ -59,30 +61,30 @@ class ThrowPromiseSpec extends ObjectBehavior
             throw new SkippingException('The class Error, introduced in PHP 7, does not exist');
         }
 
-        $this->beConstructedWith('\Error');
+        $this->beConstructedWith(\Error::class);
 
-        $this->shouldNotThrow('Prophecy\Exception\InvalidArgumentException')->duringInstantiation();
+        $this->shouldNotThrow(InvalidArgumentException::class)->duringInstantiation();
     }
 
     function it_does_not_throw_something_that_is_not_throwable_by_class_name()
     {
-        $this->beConstructedWith('\stdClass');
+        $this->beConstructedWith(\stdClass::class);
 
-        $this->shouldThrow('Prophecy\Exception\InvalidArgumentException')->duringInstantiation();
+        $this->shouldThrow(InvalidArgumentException::class)->duringInstantiation();
     }
 
     function it_does_not_throw_something_that_is_not_throwable_by_instance()
     {
         $this->beConstructedWith(new \stdClass());
 
-        $this->shouldThrow('Prophecy\Exception\InvalidArgumentException')->duringInstantiation();
+        $this->shouldThrow(InvalidArgumentException::class)->duringInstantiation();
     }
 
     function it_throws_an_exception_by_class_name()
     {
-        $this->beConstructedWith('\Exception');
+        $this->beConstructedWith(\Exception::class);
 
-        $this->shouldNotThrow('Prophecy\Exception\InvalidArgumentException')->duringInstantiation();
+        $this->shouldNotThrow(InvalidArgumentException::class)->duringInstantiation();
     }
 }
 

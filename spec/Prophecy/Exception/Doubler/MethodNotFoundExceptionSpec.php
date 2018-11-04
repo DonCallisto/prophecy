@@ -3,7 +3,7 @@
 namespace spec\Prophecy\Exception\Doubler;
 
 use PhpSpec\ObjectBehavior;
-use spec\Prophecy\Exception\Prophecy;
+use Prophecy\Exception\Doubler\DoubleException;
 
 class MethodNotFoundExceptionSpec extends ObjectBehavior
 {
@@ -14,7 +14,7 @@ class MethodNotFoundExceptionSpec extends ObjectBehavior
 
     function it_is_DoubleException()
     {
-        $this->shouldHaveType('Prophecy\Exception\Doubler\DoubleException');
+        $this->shouldHaveType(DoubleException::class);
     }
 
     function it_has_MethodName()

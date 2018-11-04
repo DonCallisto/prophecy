@@ -14,6 +14,8 @@ namespace Prophecy\Doubler\ClassPatch;
 use Prophecy\Doubler\Generator\Node\ClassNode;
 use Prophecy\Doubler\Generator\Node\MethodNode;
 use Prophecy\Doubler\Generator\Node\ArgumentNode;
+use Prophecy\Prophecy\ProphecyInterface;
+use Prophecy\Prophecy\ProphecySubjectInterface;
 
 /**
  * Add Prophecy functionality to the double.
@@ -42,7 +44,7 @@ class ProphecySubjectPatch implements ClassPatchInterface
      */
     public function apply(ClassNode $node)
     {
-        $node->addInterface('Prophecy\Prophecy\ProphecySubjectInterface');
+        $node->addInterface(ProphecySubjectInterface::class);
         $node->addProperty('objectProphecy', 'private');
 
         foreach ($node->getMethods() as $name => $method) {
@@ -63,7 +65,7 @@ class ProphecySubjectPatch implements ClassPatchInterface
 
         $prophecySetter = new MethodNode('setProphecy');
         $prophecyArgument = new ArgumentNode('prophecy');
-        $prophecyArgument->setTypeHint('Prophecy\Prophecy\ProphecyInterface');
+        $prophecyArgument->setTypeHint(ProphecyInterface::class);
         $prophecySetter->addArgument($prophecyArgument);
         $prophecySetter->setCode('$this->objectProphecy = $prophecy;');
 

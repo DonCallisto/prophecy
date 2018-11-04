@@ -3,6 +3,7 @@
 namespace spec\Prophecy\Exception\Prophecy;
 
 use PhpSpec\ObjectBehavior;
+use Prophecy\Exception\Prophecy\ProphecyException;
 use Prophecy\Prophecy\ObjectProphecy;
 
 class ObjectProphecyExceptionSpec extends ObjectBehavior
@@ -14,7 +15,7 @@ class ObjectProphecyExceptionSpec extends ObjectBehavior
 
     function it_should_be_a_prophecy_exception()
     {
-        $this->shouldBeAnInstanceOf('Prophecy\Exception\Prophecy\ProphecyException');
+        $this->shouldBeAnInstanceOf(ProphecyException::class);
     }
 
     function it_holds_double_reference($objectProphecy)

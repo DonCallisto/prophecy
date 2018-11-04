@@ -3,7 +3,8 @@
 namespace spec\Prophecy\Exception\Doubler;
 
 use PhpSpec\ObjectBehavior;
-use spec\Prophecy\Exception\Prophecy;
+use Prophecy\Exception\Doubler\DoubleException;
+use Prophecy\Exception\Exception;
 
 class ClassNotFoundExceptionSpec extends ObjectBehavior
 {
@@ -14,8 +15,8 @@ class ClassNotFoundExceptionSpec extends ObjectBehavior
 
     function it_is_a_prophecy_exception()
     {
-        $this->shouldBeAnInstanceOf('Prophecy\Exception\Exception');
-        $this->shouldBeAnInstanceOf('Prophecy\Exception\Doubler\DoubleException');
+        $this->shouldBeAnInstanceOf(Exception::class);
+        $this->shouldBeAnInstanceOf(DoubleException::class);
     }
 
     function its_getClassname_returns_classname()

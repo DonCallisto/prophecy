@@ -3,6 +3,7 @@
 namespace spec\Prophecy\Exception\Call;
 
 use PhpSpec\ObjectBehavior;
+use Prophecy\Exception\Prophecy\ObjectProphecyException;
 use Prophecy\Prophecy\ObjectProphecy;
 use spec\Prophecy\Exception\Prophecy\Prophecy;
 
@@ -15,7 +16,7 @@ class UnexpectedCallExceptionSpec extends ObjectBehavior
 
     function it_is_prophecy_exception()
     {
-        $this->shouldBeAnInstanceOf('Prophecy\Exception\Prophecy\ObjectProphecyException');
+        $this->shouldBeAnInstanceOf(ObjectProphecyException::class);
     }
 
     function it_exposes_method_name_through_getter()

@@ -3,6 +3,7 @@
 namespace spec\Prophecy\Promise;
 
 use PhpSpec\ObjectBehavior;
+use Prophecy\Promise\PromiseInterface;
 use Prophecy\Prophecy\MethodProphecy;
 use Prophecy\Prophecy\ObjectProphecy;
 
@@ -10,7 +11,7 @@ class ReturnArgumentPromiseSpec extends ObjectBehavior
 {
     function it_is_promise()
     {
-        $this->shouldBeAnInstanceOf('Prophecy\Promise\PromiseInterface');
+        $this->shouldBeAnInstanceOf(PromiseInterface::class);
     }
 
     function it_should_return_first_argument_if_provided(ObjectProphecy $object, MethodProphecy $method)

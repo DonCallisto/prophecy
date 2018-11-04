@@ -4,14 +4,16 @@ namespace spec\Prophecy\Doubler\ClassPatch;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Prophecy\Doubler\ClassPatch\ClassPatchInterface;
 use Prophecy\Doubler\Generator\Node\ClassNode;
 use Prophecy\Doubler\Generator\Node\MethodNode;
+use Prophecy\Prophecy\ProphecySubjectInterface;
 
 class ProphecySubjectPatchSpec extends ObjectBehavior
 {
     function it_is_a_patch()
     {
-        $this->shouldBeAnInstanceOf('Prophecy\Doubler\ClassPatch\ClassPatchInterface');
+        $this->shouldBeAnInstanceOf(ClassPatchInterface::class);
     }
 
     function it_has_priority_of_0()
@@ -26,13 +28,13 @@ class ProphecySubjectPatchSpec extends ObjectBehavior
 
     function it_forces_class_to_implement_ProphecySubjectInterface(ClassNode $node)
     {
-        $node->addInterface('Prophecy\Prophecy\ProphecySubjectInterface')->shouldBeCalled();
+        $node->addInterface(ProphecySubjectInterface::class)->shouldBeCalled();
 
         $node->addProperty('objectProphecy', 'private')->willReturn(null);
         $node->getMethods()->willReturn(array());
         $node->hasMethod(Argument::any())->willReturn(false);
-        $node->addMethod(Argument::type('Prophecy\Doubler\Generator\Node\MethodNode'), true)->willReturn(null);
-        $node->addMethod(Argument::type('Prophecy\Doubler\Generator\Node\MethodNode'), true)->willReturn(null);
+        $node->addMethod(Argument::type(MethodNode::class), true)->willReturn(null);
+        $node->addMethod(Argument::type(MethodNode::class), true)->willReturn(null);
 
         $this->apply($node);
     }
@@ -44,11 +46,11 @@ class ProphecySubjectPatchSpec extends ObjectBehavior
         MethodNode $method2,
         MethodNode $method3
     ) {
-        $node->addInterface('Prophecy\Prophecy\ProphecySubjectInterface')->willReturn(null);
+        $node->addInterface(ProphecySubjectInterface::class)->willReturn(null);
         $node->addProperty('objectProphecy', 'private')->willReturn(null);
         $node->hasMethod(Argument::any())->willReturn(false);
-        $node->addMethod(Argument::type('Prophecy\Doubler\Generator\Node\MethodNode'), true)->willReturn(null);
-        $node->addMethod(Argument::type('Prophecy\Doubler\Generator\Node\MethodNode'), true)->willReturn(null);
+        $node->addMethod(Argument::type(MethodNode::class), true)->willReturn(null);
+        $node->addMethod(Argument::type(MethodNode::class), true)->willReturn(null);
 
         $constructor->getName()->willReturn('__construct');
         $method1->getName()->willReturn('method1');

@@ -80,7 +80,7 @@ class ClassMirror
             $this->reflectInterfaceToNode($interface, $node);
         }
 
-        $node->addInterface('Prophecy\Doubler\Generator\ReflectionInterface');
+        $node->addInterface(ReflectionInterface::class);
 
         return $node;
     }

@@ -4,6 +4,9 @@ namespace spec\Prophecy\Doubler;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Doubler\Doubler;
+use Prophecy\Exception\Doubler\ClassNotFoundException;
+use Prophecy\Exception\Doubler\DoubleException;
+use Prophecy\Exception\Doubler\InterfaceNotFoundException;
 use Prophecy\Prophecy\ProphecySubjectInterface;
 
 class LazyDoubleSpec extends ObjectBehavior
@@ -43,7 +46,7 @@ class LazyDoubleSpec extends ObjectBehavior
 
     function its_setParentClass_throws_ClassNotFoundException_if_class_not_found()
     {
-        $this->shouldThrow('Prophecy\Exception\Doubler\ClassNotFoundException')
+        $this->shouldThrow(ClassNotFoundException::class)
             ->duringSetParentClass('SomeUnexistingClass');
     }
 
@@ -55,13 +58,13 @@ class LazyDoubleSpec extends ObjectBehavior
 
         $this->getInstance();
 
-        $this->shouldThrow('Prophecy\Exception\Doubler\DoubleException')
-            ->duringSetParentClass('stdClass');
+        $this->shouldThrow(DoubleException::class)
+            ->duringSetParentClass(\stdClass::class);
     }
 
     function its_addInterface_throws_InterfaceNotFoundException_if_no_interface_found()
     {
-        $this->shouldThrow('Prophecy\Exception\Doubler\InterfaceNotFoundException')
+        $this->shouldThrow(InterfaceNotFoundException::class)
             ->duringAddInterface('SomeUnexistingInterface');
     }
 
@@ -73,7 +76,7 @@ class LazyDoubleSpec extends ObjectBehavior
 
         $this->getInstance();
 
-        $this->shouldThrow('Prophecy\Exception\Doubler\DoubleException')
-            ->duringAddInterface('ArrayAccess');
+        $this->shouldThrow(DoubleException::class)
+            ->duringAddInterface(\ArrayAccess::class);
     }
 }

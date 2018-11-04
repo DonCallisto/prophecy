@@ -3,7 +3,6 @@
 namespace spec\Prophecy\Argument\Token;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 use Prophecy\Argument\Token\TokenInterface;
 
 class LogicalAndTokenSpec extends ObjectBehavior
@@ -11,7 +10,7 @@ class LogicalAndTokenSpec extends ObjectBehavior
     function it_implements_TokenInterface()
     {
         $this->beConstructedWith(array());
-        $this->shouldBeAnInstanceOf('Prophecy\Argument\Token\TokenInterface');
+        $this->shouldBeAnInstanceOf(TokenInterface::class);
     }
 
     function it_is_not_last()

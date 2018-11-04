@@ -80,13 +80,13 @@ class ExportUtil
         if ($value instanceof \SplObjectStorage) {
             // However, the fast method does work in HHVM, and exposes the
             // internal implementation. Hide it again.
-            if (property_exists('\SplObjectStorage', '__storage')) {
+            if (property_exists(\SplObjectStorage::class, '__storage')) {
                 unset($array['__storage']);
-            } elseif (property_exists('\SplObjectStorage', 'storage')) {
+            } elseif (property_exists(\SplObjectStorage::class, 'storage')) {
                 unset($array['storage']);
             }
 
-            if (property_exists('\SplObjectStorage', '__key')) {
+            if (property_exists(\SplObjectStorage::class, '__key')) {
                 unset($array['__key']);
             }
 

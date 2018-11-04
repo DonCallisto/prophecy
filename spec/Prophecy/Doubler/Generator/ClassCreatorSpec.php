@@ -5,6 +5,7 @@ namespace spec\Prophecy\Doubler\Generator;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Doubler\Generator\ClassCodeGenerator;
 use Prophecy\Doubler\Generator\Node\ClassNode;
+use Prophecy\Exception\Doubler\ClassCreatorException;
 
 class ClassCreatorSpec extends ObjectBehavior
 {
@@ -15,11 +16,11 @@ class ClassCreatorSpec extends ObjectBehavior
 
     function it_evaluates_code_generated_by_ClassCodeGenerator($generator, ClassNode $class)
     {
-        $generator->generate('stdClass', $class)->shouldBeCalled()->willReturn(
+        $generator->generate(\stdClass::class, $class)->shouldBeCalled()->willReturn(
             'return 42;'
         );
 
-        $this->create('stdClass', $class)->shouldReturn(42);
+        $this->create(\stdClass::class, $class)->shouldReturn(42);
     }
 
     function it_throws_an_exception_if_class_does_not_exist_after_evaluation($generator, ClassNode $class)
@@ -28,10 +29,10 @@ class ClassCreatorSpec extends ObjectBehavior
             'return 42;'
         );
 
-        $class->getParentClass()->willReturn('stdClass');
+        $class->getParentClass()->willReturn(\stdClass::class);
         $class->getInterfaces()->willReturn(array('Interface1', 'Interface2'));
 
-        $this->shouldThrow('Prophecy\Exception\Doubler\ClassCreatorException')
+        $this->shouldThrow(ClassCreatorException::class)
             ->duringCreate('CustomClass', $class);
     }
 }

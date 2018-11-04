@@ -4,6 +4,7 @@ namespace spec\Prophecy\Doubler\ClassPatch;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Prophecy\Doubler\ClassPatch\ClassPatchInterface;
 use Prophecy\Doubler\Generator\Node\ClassNode;
 use Prophecy\Doubler\Generator\Node\MethodNode;
 
@@ -11,7 +12,7 @@ class SplFileInfoPatchSpec extends ObjectBehavior
 {
     function it_is_a_patch()
     {
-        $this->shouldBeAnInstanceOf('Prophecy\Doubler\ClassPatch\ClassPatchInterface');
+        $this->shouldBeAnInstanceOf(ClassPatchInterface::class);
     }
 
     function its_priority_is_50()
@@ -21,19 +22,19 @@ class SplFileInfoPatchSpec extends ObjectBehavior
 
     function it_does_not_support_nodes_without_parent_class(ClassNode $node)
     {
-        $node->getParentClass()->willReturn('stdClass');
+        $node->getParentClass()->willReturn(\stdClass::class);
         $this->supports($node)->shouldReturn(false);
     }
 
     function it_supports_nodes_with_SplFileInfo_as_parent_class(ClassNode $node)
     {
-        $node->getParentClass()->willReturn('SplFileInfo');
+        $node->getParentClass()->willReturn(\SplFileInfo::class);
         $this->supports($node)->shouldReturn(true);
     }
 
     function it_supports_nodes_with_derivative_of_SplFileInfo_as_parent_class(ClassNode $node)
     {
-        $node->getParentClass()->willReturn('SplFileInfo');
+        $node->getParentClass()->willReturn(\SplFileInfo::class);
         $this->supports($node)->shouldReturn(true);
     }
 
@@ -61,7 +62,7 @@ class SplFileInfoPatchSpec extends ObjectBehavior
     {
         $node->hasMethod('__construct')->willReturn(true);
         $node->getMethod('__construct')->willReturn($method);
-        $node->getParentClass()->willReturn('DirectoryIterator');
+        $node->getParentClass()->willReturn(\DirectoryIterator::class);
 
         $method->setCode(Argument::that(function($value) {
             return strpos($value, '.php') === false;
@@ -74,7 +75,7 @@ class SplFileInfoPatchSpec extends ObjectBehavior
     {
         $node->hasMethod('__construct')->willReturn(true);
         $node->getMethod('__construct')->willReturn($method);
-        $node->getParentClass()->willReturn('SplFileObject');
+        $node->getParentClass()->willReturn(\SplFileObject::class);
 
         $method->setCode(Argument::that(function($value) {
             return strpos($value, '.php') !== false;

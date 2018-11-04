@@ -4,6 +4,7 @@ namespace spec\Prophecy\Exception\Prediction;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Call\Call;
+use Prophecy\Exception\Prediction\UnexpectedCallsException;
 use Prophecy\Prophecy\MethodProphecy;
 use Prophecy\Prophecy\ObjectProphecy;
 
@@ -17,7 +18,7 @@ class UnexpectedCallsCountExceptionSpec extends ObjectBehavior
 
     function it_extends_UnexpectedCallsException()
     {
-        $this->shouldBeAnInstanceOf('Prophecy\Exception\Prediction\UnexpectedCallsException');
+        $this->shouldBeAnInstanceOf(UnexpectedCallsException::class);
     }
 
     function it_should_expose_expectedCount_through_getter()

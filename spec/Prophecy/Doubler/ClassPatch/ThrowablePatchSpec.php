@@ -2,17 +2,18 @@
 
 namespace spec\Prophecy\Doubler\ClassPatch;
 
+use Fixtures\Prophecy\ThrowableInterface;
 use PhpSpec\Exception\Example\SkippingException;
-use Prophecy\Doubler\ClassPatch\ThrowablePatch;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
+use Prophecy\Doubler\ClassPatch\ClassPatchInterface;
 use Prophecy\Doubler\Generator\Node\ClassNode;
+use Prophecy\Exception\Doubler\ClassCreatorException;
 
 class ThrowablePatchSpec extends ObjectBehavior
 {
     function it_is_a_patch()
     {
-        $this->shouldBeAnInstanceOf('Prophecy\Doubler\ClassPatch\ClassPatchInterface');
+        $this->shouldBeAnInstanceOf(ClassPatchInterface::class);
     }
 
     function it_does_not_support_class_that_does_not_implement_throwable(ClassNode $node)
@@ -22,7 +23,7 @@ class ThrowablePatchSpec extends ObjectBehavior
         }
 
         $node->getInterfaces()->willReturn(array());
-        $node->getParentClass()->willReturn('stdClass');
+        $node->getParentClass()->willReturn(\stdClass::class);
 
         $this->supports($node)->shouldReturn(false);
     }
@@ -33,8 +34,8 @@ class ThrowablePatchSpec extends ObjectBehavior
             throw new SkippingException('Throwable is not defined in PHP 5');
         }
 
-        $node->getInterfaces()->willReturn(array('Throwable'));
-        $node->getParentClass()->willReturn('stdClass');
+        $node->getInterfaces()->willReturn(array(\Throwable::class));
+        $node->getParentClass()->willReturn(\stdClass::class);
 
         $this->supports($node)->shouldReturn(true);
     }
@@ -45,8 +46,8 @@ class ThrowablePatchSpec extends ObjectBehavior
             throw new SkippingException('Throwable is not defined in PHP 5');
         }
 
-        $node->getInterfaces()->willReturn(array('Throwable'));
-        $node->getParentClass()->willReturn('InvalidArgumentException');
+        $node->getInterfaces()->willReturn(array(\Throwable::class));
+        $node->getParentClass()->willReturn(\InvalidArgumentException::class);
 
         $this->supports($node)->shouldReturn(false);
     }
@@ -57,8 +58,8 @@ class ThrowablePatchSpec extends ObjectBehavior
             throw new SkippingException('Throwable is not defined in PHP 5');
         }
 
-        $node->getInterfaces()->willReturn(array('Fixtures\Prophecy\ThrowableInterface'));
-        $node->getParentClass()->willReturn('stdClass');
+        $node->getInterfaces()->willReturn(array(ThrowableInterface::class));
+        $node->getParentClass()->willReturn(\stdClass::class);
 
         $this->supports($node)->shouldReturn(true);
     }
@@ -69,7 +70,7 @@ class ThrowablePatchSpec extends ObjectBehavior
             throw new SkippingException('Throwable is not defined in PHP 5');
         }
 
-        $node->getParentClass()->willReturn('stdClass');
+        $node->getParentClass()->willReturn(\stdClass::class);
 
         $node->setParentClass('Exception')->shouldBeCalled();
 
@@ -91,8 +92,8 @@ class ThrowablePatchSpec extends ObjectBehavior
             throw new SkippingException('Throwable is not defined in PHP 5');
         }
 
-        $node->getParentClass()->willReturn('ArrayObject');
+        $node->getParentClass()->willReturn(\ArrayObject::class);
 
-        $this->shouldThrow('Prophecy\Exception\Doubler\ClassCreatorException')->duringApply($node);
+        $this->shouldThrow(ClassCreatorException::class)->duringApply($node);
     }
 }

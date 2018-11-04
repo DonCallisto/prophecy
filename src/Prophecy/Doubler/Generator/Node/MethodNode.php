@@ -12,6 +12,7 @@
 namespace Prophecy\Doubler\Generator\Node;
 
 use Prophecy\Doubler\Generator\TypeHintReference;
+use Prophecy\Exception\Doubler\ReturnByReferenceException;
 use Prophecy\Exception\InvalidArgumentException;
 
 /**
@@ -170,7 +171,10 @@ class MethodNode
     {
         if ($this->returnsReference)
         {
-            return "throw new \Prophecy\Exception\Doubler\ReturnByReferenceException('Returning by reference not supported', get_class(\$this), '{$this->name}');";
+            return sprintf(
+                "throw new %s('Returning by reference not supported', get_class(\$this), '{$this->name}');",
+                ReturnByReferenceException::class
+            );
         }
 
         return (string) $this->code;

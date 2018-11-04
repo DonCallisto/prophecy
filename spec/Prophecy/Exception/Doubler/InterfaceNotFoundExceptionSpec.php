@@ -3,7 +3,7 @@
 namespace spec\Prophecy\Exception\Doubler;
 
 use PhpSpec\ObjectBehavior;
-use spec\Prophecy\Exception\Prophecy;
+use Prophecy\Exception\Doubler\ClassNotFoundException;
 
 class InterfaceNotFoundExceptionSpec extends ObjectBehavior
 {
@@ -14,7 +14,7 @@ class InterfaceNotFoundExceptionSpec extends ObjectBehavior
 
     function it_extends_ClassNotFoundException()
     {
-        $this->shouldBeAnInstanceOf('Prophecy\Exception\Doubler\ClassNotFoundException');
+        $this->shouldBeAnInstanceOf(ClassNotFoundException::class);
     }
 
     function its_getClassname_returns_classname()

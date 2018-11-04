@@ -15,8 +15,8 @@ class AggregateExceptionSpec extends ObjectBehavior
 
     function it_is_prediction_exception()
     {
-        $this->shouldBeAnInstanceOf('RuntimeException');
-        $this->shouldBeAnInstanceOf('Prophecy\Exception\Prediction\PredictionException');
+        $this->shouldBeAnInstanceOf(\RuntimeException::class);
+        $this->shouldBeAnInstanceOf(PredictionException::class);
     }
 
     function it_can_store_objectProphecy_link(ObjectProphecy $object)

@@ -3,6 +3,8 @@
 namespace spec\Prophecy\Call;
 
 use PhpSpec\ObjectBehavior;
+use Prophecy\Call\Call;
+use Prophecy\Exception\Call\UnexpectedCallException;
 use Prophecy\Promise\PromiseInterface;
 use Prophecy\Prophecy\MethodProphecy;
 use Prophecy\Prophecy\ObjectProphecy;
@@ -24,7 +26,7 @@ class CallCenterSpec extends ObjectBehavior
         $calls = $this->findCalls('setValues', $wildcard);
         $calls->shouldHaveCount(1);
 
-        $calls[0]->shouldBeAnInstanceOf('Prophecy\Call\Call');
+        $calls[0]->shouldBeAnInstanceOf(Call::class);
         $calls[0]->getMethodName()->shouldReturn('setValues');
         $calls[0]->getArguments()->shouldReturn(array(5, 2, 3));
         $calls[0]->getReturnValue()->shouldReturn(null);
@@ -136,7 +138,7 @@ class CallCenterSpec extends ObjectBehavior
         $objectProphecy->getMethodProphecies()->willReturn(array('method1' => array($method)));
         $objectProphecy->getMethodProphecies('getName')->willReturn(array($method));
 
-        $this->shouldThrow('Prophecy\Exception\Call\UnexpectedCallException')
+        $this->shouldThrow(UnexpectedCallException::class)
             ->duringMakeCall($objectProphecy, 'getName', array('world', 'everything'));
     }
 

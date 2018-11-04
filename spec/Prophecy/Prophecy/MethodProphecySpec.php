@@ -6,9 +6,20 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Prophecy\Argument\ArgumentsWildcard;
 use Prophecy\Call\Call;
+use Prophecy\Exception\Doubler\MethodNotFoundException;
+use Prophecy\Exception\InvalidArgumentException;
+use Prophecy\Exception\Prophecy\MethodProphecyException;
+use Prophecy\Prediction\CallbackPrediction;
+use Prophecy\Prediction\CallPrediction;
+use Prophecy\Prediction\CallTimesPrediction;
+use Prophecy\Prediction\NoCallsPrediction;
 use Prophecy\Prediction\PredictionInterface;
 use Prophecy\Promise\CallbackPromise;
 use Prophecy\Promise\PromiseInterface;
+use Prophecy\Promise\ReturnArgumentPromise;
+use Prophecy\Promise\ReturnPromise;
+use Prophecy\Promise\ThrowPromise;
+use Prophecy\Prophecy\MethodProphecy;
 use Prophecy\Prophecy\ObjectProphecy;
 
 class ClassWithFinalMethod
@@ -27,12 +38,12 @@ class MethodProphecySpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Prophecy\Prophecy\MethodProphecy');
+        $this->shouldHaveType(MethodProphecy::class);
     }
 
     function its_constructor_throws_MethodNotFoundException_for_unexisting_method($objectProphecy)
     {
-        $this->shouldThrow('Prophecy\Exception\Doubler\MethodNotFoundException')->during(
+        $this->shouldThrow(MethodNotFoundException::class)->during(
             '__construct', array($objectProphecy, 'getUnexisting', null)
         );
     }
@@ -41,7 +52,7 @@ class MethodProphecySpec extends ObjectBehavior
     {
         $objectProphecy->reveal()->willReturn($subject);
 
-        $this->shouldThrow('Prophecy\Exception\Prophecy\MethodProphecyException')->during(
+        $this->shouldThrow(MethodProphecyException::class)->during(
             '__construct', array($objectProphecy, 'finalMethod', null)
         );
     }
@@ -130,15 +141,15 @@ class MethodProphecySpec extends ObjectBehavior
         $objectProphecy->addMethodProphecy($this)->willReturn(null);
 
         $this->willReturn(42);
-        $this->getPromise()->shouldBeAnInstanceOf('Prophecy\Promise\ReturnPromise');
+        $this->getPromise()->shouldBeAnInstanceOf(ReturnPromise::class);
     }
 
     function it_adds_ThrowPromise_during_willThrow_call($objectProphecy)
     {
         $objectProphecy->addMethodProphecy($this)->willReturn(null);
 
-        $this->willThrow('RuntimeException');
-        $this->getPromise()->shouldBeAnInstanceOf('Prophecy\Promise\ThrowPromise');
+        $this->willThrow(\RuntimeException::class);
+        $this->getPromise()->shouldBeAnInstanceOf(ThrowPromise::class);
     }
 
     function it_adds_ReturnArgumentPromise_during_willReturnArgument_call($objectProphecy)
@@ -146,7 +157,7 @@ class MethodProphecySpec extends ObjectBehavior
         $objectProphecy->addMethodProphecy($this)->willReturn(null);
 
         $this->willReturnArgument();
-        $this->getPromise()->shouldBeAnInstanceOf('Prophecy\Promise\ReturnArgumentPromise');
+        $this->getPromise()->shouldBeAnInstanceOf(ReturnArgumentPromise::class);
     }
 
     function it_adds_ReturnArgumentPromise_during_willReturnArgument_call_with_index_argument($objectProphecy)
@@ -155,7 +166,7 @@ class MethodProphecySpec extends ObjectBehavior
 
         $this->willReturnArgument(1);
         $promise = $this->getPromise();
-        $promise->shouldBeAnInstanceOf('Prophecy\Promise\ReturnArgumentPromise');
+        $promise->shouldBeAnInstanceOf(ReturnArgumentPromise::class);
         $promise->execute(array('one', 'two'), $objectProphecy, $this)->shouldReturn('two');
     }
 
@@ -166,7 +177,7 @@ class MethodProphecySpec extends ObjectBehavior
         $callback = function () {};
 
         $this->will($callback);
-        $this->getPromise()->shouldBeAnInstanceOf('Prophecy\Promise\CallbackPromise');
+        $this->getPromise()->shouldBeAnInstanceOf(CallbackPromise::class);
     }
 
     function it_records_prediction_through_should_method(PredictionInterface $prediction, $objectProphecy)
@@ -184,7 +195,7 @@ class MethodProphecySpec extends ObjectBehavior
         $callback = function () {};
 
         $this->callOnWrappedObject('should', array($callback));
-        $this->getPrediction()->shouldBeAnInstanceOf('Prophecy\Prediction\CallbackPrediction');
+        $this->getPrediction()->shouldBeAnInstanceOf(CallbackPrediction::class);
     }
 
     function it_adds_itself_to_ObjectProphecy_during_call_to_should($objectProphecy, PredictionInterface $prediction)
@@ -199,7 +210,7 @@ class MethodProphecySpec extends ObjectBehavior
         $objectProphecy->addMethodProphecy($this)->willReturn(null);
 
         $this->callOnWrappedObject('shouldBeCalled', array());
-        $this->getPrediction()->shouldBeAnInstanceOf('Prophecy\Prediction\CallPrediction');
+        $this->getPrediction()->shouldBeAnInstanceOf(CallPrediction::class);
     }
 
     function it_adds_NoCallsPrediction_during_shouldNotBeCalled_call($objectProphecy)
@@ -207,7 +218,7 @@ class MethodProphecySpec extends ObjectBehavior
         $objectProphecy->addMethodProphecy($this)->willReturn(null);
 
         $this->callOnWrappedObject('shouldNotBeCalled', array());
-        $this->getPrediction()->shouldBeAnInstanceOf('Prophecy\Prediction\NoCallsPrediction');
+        $this->getPrediction()->shouldBeAnInstanceOf(NoCallsPrediction::class);
     }
 
     function it_adds_CallTimesPrediction_during_shouldBeCalledTimes_call($objectProphecy)
@@ -215,7 +226,7 @@ class MethodProphecySpec extends ObjectBehavior
         $objectProphecy->addMethodProphecy($this)->willReturn(null);
 
         $this->callOnWrappedObject('shouldBeCalledTimes', array(5));
-        $this->getPrediction()->shouldBeAnInstanceOf('Prophecy\Prediction\CallTimesPrediction');
+        $this->getPrediction()->shouldBeAnInstanceOf(CallTimesPrediction::class);
     }
 
     function it_adds_CallTimesPrediction_during_shouldBeCalledOnce_call($objectProphecy)
@@ -223,7 +234,7 @@ class MethodProphecySpec extends ObjectBehavior
         $objectProphecy->addMethodProphecy($this)->willReturn(null);
 
         $this->callOnWrappedObject('shouldBeCalledOnce');
-        $this->getPrediction()->shouldBeAnInstanceOf('Prophecy\Prediction\CallTimesPrediction');
+        $this->getPrediction()->shouldBeAnInstanceOf(CallTimesPrediction::class);
     }
 
     function it_checks_prediction_via_shouldHave_method_call(
@@ -255,7 +266,7 @@ class MethodProphecySpec extends ObjectBehavior
         $this->withArguments($arguments);
         $this->callOnWrappedObject('shouldHave', array($prediction));
 
-        $this->getPromise()->shouldReturnAnInstanceOf('Prophecy\Promise\ReturnPromise');
+        $this->getPromise()->shouldReturnAnInstanceOf(ReturnPromise::class);
     }
 
     function it_does_not_set_return_promise_during_shouldHave_call_if_it_was_set_before(
@@ -333,7 +344,7 @@ class MethodProphecySpec extends ObjectBehavior
         $objectProphecy->findProphecyMethodCalls('getName', $arguments)->willReturn(array($call1, $call2));
 
         $this->withArguments($arguments);
-        $this->shouldThrow('RuntimeException')->duringShouldHave($callback);
+        $this->shouldThrow(\RuntimeException::class)->duringShouldHave($callback);
     }
 
     function it_does_nothing_during_checkPrediction_if_no_prediction_set()
@@ -392,7 +403,7 @@ class MethodProphecySpec extends ObjectBehavior
 
     function its_withArguments_throws_exception_if_wrong_arguments_provided()
     {
-        $this->shouldThrow('Prophecy\Exception\InvalidArgumentException')->duringWithArguments(42);
+        $this->shouldThrow(InvalidArgumentException::class)->duringWithArguments(42);
     }
 }
 

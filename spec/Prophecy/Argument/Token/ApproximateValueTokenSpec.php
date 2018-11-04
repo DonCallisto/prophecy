@@ -3,7 +3,8 @@
 namespace spec\Prophecy\Argument\Token;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
+use Prophecy\Argument\Token\ApproximateValueToken;
+use Prophecy\Argument\Token\TokenInterface;
 
 class ApproximateValueTokenSpec extends ObjectBehavior
 {
@@ -14,12 +15,12 @@ class ApproximateValueTokenSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType('Prophecy\Argument\Token\ApproximateValueToken');
+        $this->shouldHaveType(ApproximateValueToken::class);
     }
 
     function it_implements_TokenInterface()
     {
-        $this->shouldBeAnInstanceOf('Prophecy\Argument\Token\TokenInterface');
+        $this->shouldBeAnInstanceOf(TokenInterface::class);
     }
 
     function it_is_not_last()

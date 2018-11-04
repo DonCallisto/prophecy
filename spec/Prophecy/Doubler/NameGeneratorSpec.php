@@ -8,7 +8,7 @@ class NameGeneratorSpec extends ObjectBehavior
 {
     function its_name_generates_name_based_on_simple_class_reflection(\ReflectionClass $class)
     {
-        $class->getName()->willReturn('stdClass');
+        $class->getName()->willReturn(\stdClass::class);
         $this->name($class, array())->shouldStartWith('Double\stdClass\\');
     }
 

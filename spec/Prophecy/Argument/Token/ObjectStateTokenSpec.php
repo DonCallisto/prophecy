@@ -3,17 +3,18 @@
 namespace spec\Prophecy\Argument\Token;
 
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument\Token\TokenInterface;
 
 class ObjectStateTokenSpec extends ObjectBehavior
 {
     function let()
     {
-        $this->beConstructedWith('getName', 'stdClass');
+        $this->beConstructedWith('getName', \stdClass::class);
     }
 
     function it_implements_TokenInterface()
     {
-        $this->shouldBeAnInstanceOf('Prophecy\Argument\Token\TokenInterface');
+        $this->shouldBeAnInstanceOf(TokenInterface::class);
     }
 
     function it_is_not_last()
@@ -23,14 +24,14 @@ class ObjectStateTokenSpec extends ObjectBehavior
 
     function it_scores_8_if_argument_object_has_specific_method_state(\ReflectionClass $reflection)
     {
-        $reflection->getName()->willReturn('stdClass');
+        $reflection->getName()->willReturn(\stdClass::class);
 
         $this->scoreArgument($reflection)->shouldReturn(8);
     }
 
     function it_scores_8_if_argument_object_has_specific_property_state(\stdClass $class)
     {
-        $class->getName = 'stdClass';
+        $class->getName = \stdClass::class;
 
         $this->scoreArgument($class)->shouldReturn(8);
     }
@@ -46,7 +47,7 @@ class ObjectStateTokenSpec extends ObjectBehavior
 
     function it_does_not_score_if_argument_property_state_does_not_match(\stdClass $class)
     {
-        $class->getName = 'SplFileInfo';
+        $class->getName = \SplFileInfo::class;
 
         $this->scoreArgument($class)->shouldReturn(false);
     }
@@ -63,7 +64,7 @@ class ObjectStateTokenSpec extends ObjectBehavior
 
     function it_has_simple_string_representation()
     {
-        $this->__toString()->shouldReturn('state(getName(), "stdClass")');
+        $this->__toString()->shouldReturn(sprintf('state(getName(), "%s")', \stdClass::class));
     }
 }
 

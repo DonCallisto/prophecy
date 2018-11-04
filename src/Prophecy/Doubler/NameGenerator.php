@@ -44,7 +44,7 @@ class NameGenerator
         }
 
         if (!count($parts)) {
-            $parts[] = 'stdClass';
+            $parts[] = \stdClass::class;
         }
 
         return sprintf('Double\%s\P%d', implode('\\', $parts), self::$counter++);

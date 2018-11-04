@@ -14,7 +14,7 @@ class TypeTokenSpec extends ObjectBehavior
 
     function it_implements_TokenInterface()
     {
-        $this->shouldBeAnInstanceOf('Prophecy\Argument\Token\TokenInterface');
+        $this->shouldBeAnInstanceOf(TokenInterface::class);
     }
 
     function it_is_not_last()
@@ -38,7 +38,7 @@ class TypeTokenSpec extends ObjectBehavior
 
     function it_scores_5_if_argument_is_an_instance_of_specified_class(\ReflectionObject $object)
     {
-        $this->beConstructedWith('ReflectionClass');
+        $this->beConstructedWith(\ReflectionClass::class);
 
         $this->scoreArgument($object)->shouldReturn(5);
     }
@@ -50,7 +50,7 @@ class TypeTokenSpec extends ObjectBehavior
 
     function it_scores_5_if_argument_is_an_instance_of_specified_interface(TokenInterface $interface)
     {
-        $this->beConstructedWith('Prophecy\Argument\Token\TokenInterface');
+        $this->beConstructedWith(TokenInterface::class);
 
         $this->scoreArgument($interface)->shouldReturn(5);
     }

@@ -4,6 +4,7 @@ namespace spec\Prophecy\Doubler\Generator\Node;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Doubler\Generator\Node\ArgumentNode;
+use Prophecy\Exception\Doubler\ReturnByReferenceException;
 
 class MethodNodeSpec extends ObjectBehavior
 {
@@ -52,7 +53,7 @@ class MethodNodeSpec extends ObjectBehavior
 
     function it_accepts_only_supported_visibilities()
     {
-        $this->shouldThrow('InvalidArgumentException')->duringSetVisibility('stealth');
+        $this->shouldThrow(\InvalidArgumentException::class)->duringSetVisibility('stealth');
     }
 
     function it_lowercases_visibility_before_setting_it()
@@ -89,7 +90,10 @@ class MethodNodeSpec extends ObjectBehavior
     {
         $this->setCode('echo "code";');
         $this->setReturnsReference();
-        $this->getCode()->shouldReturn("throw new \Prophecy\Exception\Doubler\ReturnByReferenceException('Returning by reference not supported', get_class(\$this), 'getTitle');");
+        $this->getCode()->shouldReturn(sprintf(
+            "throw new %s('Returning by reference not supported', get_class(\$this), 'getTitle');",
+            ReturnByReferenceException::class
+        ));
     }
 
     function its_setCode_provided_with_null_cleans_method_body()

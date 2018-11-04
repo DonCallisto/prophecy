@@ -3,7 +3,7 @@
 namespace spec\Prophecy\Doubler\ClassPatch;
 
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
+use Prophecy\Doubler\ClassPatch\ClassPatchInterface;
 use Prophecy\Doubler\Generator\Node\ArgumentNode;
 use Prophecy\Doubler\Generator\Node\ClassNode;
 use Prophecy\Doubler\Generator\Node\MethodNode;
@@ -12,7 +12,7 @@ class ReflectionClassNewInstancePatchSpec extends ObjectBehavior
 {
     function it_is_a_patch()
     {
-        $this->shouldBeAnInstanceOf('Prophecy\Doubler\ClassPatch\ClassPatchInterface');
+        $this->shouldBeAnInstanceOf(ClassPatchInterface::class);
     }
 
     function its_priority_is_50()
@@ -22,8 +22,8 @@ class ReflectionClassNewInstancePatchSpec extends ObjectBehavior
 
     function it_supports_ReflectionClass_only(ClassNode $reflectionClassNode, ClassNode $anotherClassNode)
     {
-        $reflectionClassNode->getParentClass()->willReturn('ReflectionClass');
-        $anotherClassNode->getParentClass()->willReturn('stdClass');
+        $reflectionClassNode->getParentClass()->willReturn(\ReflectionClass::class);
+        $anotherClassNode->getParentClass()->willReturn(\stdClass::class);
 
         $this->supports($reflectionClassNode)->shouldReturn(true);
         $this->supports($anotherClassNode)->shouldReturn(false);
